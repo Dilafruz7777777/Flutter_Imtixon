@@ -28,25 +28,23 @@ class _FakeDataState extends State<FakeData> {
         )),
         child: Column(
           children: [
-            Row(
-              children: [
-                InkWell(
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (_) {
-                      return const Menu2();
-                    }));
-                  },
-                  child: const Padding(
-                    padding: EdgeInsets.only(top: 50, left: 20),
+            Padding(
+              padding: const EdgeInsets.only(top: 30 ),
+              child: Row(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) {
+                        return const Menu2();
+                      }));
+                    },
                     child: Icon(
                       Icons.arrow_back_ios,
                       color: Colors.white,
                     ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 50, left: 100),
-                  child: Text(
+                  Spacer(),
+                  Text(
                     widget.data.title,
                     style: TextStyle( fontSize: 25,
                       foreground: Paint()
@@ -55,20 +53,19 @@ class _FakeDataState extends State<FakeData> {
                         ..color = Colors.brown,
                     ),
                   ),
-                ),
+
+                  Spacer(),
 
 
 
 
-                const Padding(
-                  padding: EdgeInsets.only(top: 50, left: 90),
-                  child: Icon(
+                  Icon(
                     Icons.more_vert_outlined,
                     color: Colors.white,
                     size: 30,
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             const Padding(
               padding: EdgeInsets.only(top: 240, left: 30),
