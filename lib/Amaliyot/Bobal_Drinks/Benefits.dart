@@ -101,7 +101,7 @@ class _BenefitState extends State<Benefit> {
           Padding(
             padding: const EdgeInsets.only(top: 30, left: 20),
             child: Text(
-                "- meningkatkan daya tahan tubuh dan nafsu makan     - mencegah risiko gagal jantung dan kanker    - meredakan mual dan batuk    - memperlancar sirkulasi darah   - membantu proses detoksifikasi",
+                "@bobal.drink",
               style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
             ),
           ),
