@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qwertyui/Imtihon/Imtihon_choose_page.dart';
 
 class Imtihon_PAge extends StatefulWidget {
   const Imtihon_PAge({Key? key}) : super(key: key);
@@ -16,6 +17,12 @@ class _Imtihon_PAgeState extends State<Imtihon_PAge> {
       body: SingleChildScrollView(
         child: InkWell(
           onLongPress: () {
+            Navigator.push(context, MaterialPageRoute(builder: (_) {
+              return Sign_In();
+
+            },
+            ),
+            );
 
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -35,6 +42,10 @@ class _Imtihon_PAgeState extends State<Imtihon_PAge> {
                     ),
                   ],
                 ),
+                SizedBox(
+                  height: 50,
+                    child: Text("Free delivery offers", style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w600),)),
+
               ],
             );
           },

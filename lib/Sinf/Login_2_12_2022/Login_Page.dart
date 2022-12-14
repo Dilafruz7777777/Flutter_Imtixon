@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'dart:core';
 import 'package:qwertyui/Sinf/Login_2_12_2022/Profile_Page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -23,142 +26,114 @@ class _LoginPageState extends State<LoginPage> {
   int selectIndexImage = -1;
   bool isNameEmpty = false;
   bool isLastNameEmpty = false;
+  String selecTime = "";
+  String seletDate = "";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
-          title: Center(child: const Text("Login")),
+          title: Center(
+            child: Text(
+              "Login",
+              style: GoogleFonts.monteCarlo(
+                  fontSize: 50, fontWeight: FontWeight.bold),
+            ),
+          ),
         ),
         body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: 200,
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: listOfImage.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: InkWell(
-                            child: Container(
-                              width: 80,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(16),
-                                ),
-                                border: Border.all(
-                                    color: selectIndexImage == index
-                                        ? Colors.blue
-                                        : Colors.grey,
-                                    width: 4),
-                                image: DecorationImage(
-                                    image: NetworkImage(listOfImage[index]),
-                                    fit: BoxFit.cover),
-                              ),
-                            ),
-                            onTap: () {
-                              if (selectIndexImage == index) {
-                                selectIndexImage = -1;
-                              } else {
-                                selectIndexImage = index;
-                              }
-                              setState(() {});
-                            },
-                          ),
-                        );
-                      }),
-                ),
-                SizedBox(
-                  height: 24,
-                ),
-                TextFormField(
-                  controller: firstName,
-                  onChanged: (s){
-                    isNameEmpty = false;
+          child: Column(
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  showTimePicker(
+                    context: context,
+                    initialTime: TimeOfDay.now(),
+                  ).then((value) {
+                    selecTime =
+                        "${value?.hour ?? TimeOfDay.now().hour} : ${value?.minute ?? TimeOfDay.now().minute}";
                     setState(() {});
-                  },
-                  decoration: const InputDecoration(
-                      labelText: "First name",
-                      border: OutlineInputBorder(),
-                      focusedBorder: OutlineInputBorder(),
-                      enabledBorder: OutlineInputBorder(),
-                      errorBorder: OutlineInputBorder()),
+                  });
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text("Select day : $selecTime"),
                 ),
-                isNameEmpty ? Text("You maust write name",style:
-                TextStyle(color: Colors.red),) : SizedBox.shrink(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: TextFormField(
-                    controller: lastName,
-                    onChanged: (s){
-                      isLastNameEmpty = false;
-                      setState(() {});
-                    },
-                    decoration: const InputDecoration(
-                        labelText: "Last name",
-                        border: OutlineInputBorder(),
-                        focusedBorder: OutlineInputBorder(),
-                        enabledBorder: OutlineInputBorder(),
-                        errorBorder: OutlineInputBorder()),
+              ),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    TimeOfDay.now().toString(),
+                    style: TextStyle(fontSize: 16),
                   ),
                 ),
-                isLastNameEmpty ? Text("You maust write last",style:
-                TextStyle(color: Colors.red),) : SizedBox.shrink(),
-                ElevatedButton(
-                  onPressed: () {
-                    if(firstName.text.isNotEmpty && lastName.text.isNotEmpty){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) {
-                            return ProfilePage(
-                              name: firstName.text,
-                              lastName: lastName.text,
-                              avatar: selectIndexImage == -1
-                                  ? ""
-                                  : listOfImage[selectIndexImage],
-                            );
-                          },
-                        ),
-                      );
-                    }else{
-                      isNameEmpty = true;
-                      isLastNameEmpty = true;
-                      setState(() {});
-                    }
-                  },
-                  child: const Center(child: Text("Login"),),),
-              ],
-            ),
+              ),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    DateTime.now().toString(),
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  // showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(1920), lastDate: DateTime(2025));
+                  showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime.now().subtract(
+                      Duration(days: 365 * 10),
+                    ),
+                    lastDate: DateTime.now().add(
+                      Duration(days: 365 * 10),
+                    ),
+                  ).then((value) {
+                    seletDate = "${value?.year ?? 0} - ${value?.month ?? 0} - ${value?.day ?? 0}";
+                    setState(() {});
+                  });
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text("Select day_new : $selecTime"),
+                ),
+              ),
+
+              ElevatedButton(onPressed: () {
+                showModalBottomSheet(context: context, builder: (context){
+                  return CupertinoTimerPicker(onTimerDurationChanged: (Duration value) {
+                    print(value);
+                  });
+                });
+              }, child: Text("Data ${seletDate}")),
+
+
+              ElevatedButton(onPressed: () {
+                showModalBottomSheet(context: context, builder: (context){
+                  return CupertinoDatePicker(onDateTimeChanged: (value) {
+                    print(value);
+                  });
+                });
+              }, child: Text("Data_2 ${seletDate}")),
+
+              ElevatedButton(onPressed: () {
+                showModalBottomSheet(context: context, builder: (context){
+                  return CupertinoDatePicker(mode: CupertinoDatePickerMode.dateAndTime,
+                    use24hFormat: true,
+                    onDateTimeChanged: (value) {
+                      print(value);
+                    },
+                  );
+                });
+              }, child: Text("Data_3 ${seletDate}")),
+            ],
           ),
         ));
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import 'package:flutter/material.dart';
 //
